@@ -4,8 +4,12 @@ metadata:
   name: tickets-poc
 build:
   artifacts:
-    - image: tickets-new/auth
+    - image: tickets-poc/auth
       context: auth
+      docker:
+        dockerfile: Dockerfile
+    - image: tickets-poc/client
+      context: client
       docker:
         dockerfile: Dockerfile
 manifests:
@@ -13,3 +17,4 @@ manifests:
     - infra/k8s/auth-depl.yaml
     - infra/k8s/auth-mongo-depl.yaml
     - infra/k8s/ingress-srv.yaml
+    - infra/k8s/client-depl.yaml

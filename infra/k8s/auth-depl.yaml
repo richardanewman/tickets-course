@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: auth
-          image: tickets-new/auth
+          image: tickets-poc/auth
           env:
             - name: JWT_KEY
               valueFrom:
