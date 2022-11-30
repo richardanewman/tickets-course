@@ -2,7 +2,15 @@ import express from 'express';
 import 'express-async-errors';
 import { json } from 'body-parser';
 import cookieSession from 'cookie-session';
-import { errorHandler, NotFoundError } from '@rn-test-tickets/common';
+import {
+  errorHandler,
+  NotFoundError,
+  currentUser,
+} from '@rn-test-tickets/common';
+import { createTicketRouter } from './routes/create-ticket';
+import { ticketRouter } from './routes/ticket';
+import { indexTicketRouter } from './routes/index';
+import { updateTicketRouter } from './routes/update';
 
 const app = express();
 app.set('trust proxy', true);
@@ -13,6 +21,12 @@ app.use(
     secure: process.env.NODE_ENV !== 'test',
   })
 );
+
+app.use(currentUser);
+app.use(createTicketRouter);
+app.use(ticketRouter);
+app.use(indexTicketRouter);
+app.use(updateTicketRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();
