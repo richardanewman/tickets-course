@@ -24,3 +24,4 @@ manifests:
     - infra/k8s/client-depl.yaml
     - infra/k8s/tickets-depl.yaml
     - infra/k8s/tickets-mongo-depl.yaml
+    - infra/k8s/nats-depl.yaml
