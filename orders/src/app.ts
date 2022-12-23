@@ -7,12 +7,10 @@ import {
   NotFoundError,
   currentUser,
 } from '@rn-test-tickets/common';
-import {
-  createTicketRouter,
-  showTicketRouter,
-  indexTicketRouter,
-  updateTicketRouter,
-} from './routes';
+import { indexOrderRouter } from './routes';
+import { newOrderRouter } from './routes/new';
+import { showOrderRouter } from './routes/show';
+import { deleteOrderRouter } from './routes/delete';
 
 const app = express();
 app.set('trust proxy', true);
@@ -25,10 +23,10 @@ app.use(
 );
 
 app.use(currentUser);
-app.use(createTicketRouter);
-app.use(showTicketRouter);
-app.use(indexTicketRouter);
-app.use(updateTicketRouter);
+app.use(indexOrderRouter);
+app.use(newOrderRouter);
+app.use(showOrderRouter);
+app.use(deleteOrderRouter);
 
 app.all('*', async () => {
   throw new NotFoundError();

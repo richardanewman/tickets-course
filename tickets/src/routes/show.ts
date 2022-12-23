@@ -18,4 +18,4 @@ router.get(
   }
 );
 
-export { router as ticketRouter };
+export { router as showTicketRouter };
