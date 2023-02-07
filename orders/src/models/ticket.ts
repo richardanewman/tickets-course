@@ -2,6 +2,7 @@ import mongoose from 'mongoose';
 import { Order, OrderStatus } from './order';
 
 interface TicketAttrs {
+  id: string;
   title: string;
   price: number;
 }
@@ -39,11 +40,17 @@ const ticketSchema = new mongoose.Schema(
 );
 
 ticketSchema.statics.build = (attrs: TicketAttrs) => {
-  return new Ticket(attrs);
+  //If we just pass attrs to new Ticket(attrs), mongo will ignore id property
+  //and set a random id string in _id field. Must set _id below.
+  return new Ticket({
+    _id: attrs.id,
+    title: attrs.title,
+    price: attrs.price,
+  });
 };
 
 ticketSchema.methods.isReserved = async function () {
-  //must be async function. cannot be arrow function or will not be proper reference
+  //must be async function. cannot be set to an arrow function or will not be proper reference
   //to this keyword. this === the ticket document that we just called 'isReserved' on
   const existingOrder = await Order.findOne({
     ticket: this,
