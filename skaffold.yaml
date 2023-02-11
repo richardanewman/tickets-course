@@ -12,6 +12,10 @@ build:
       context: client
       docker:
         dockerfile: Dockerfile
+    - image: tickets-poc/expiration
+      context: expiration
+      docker:
+        dockerfile: Dockerfile
     - image: tickets-poc/tickets
       context: tickets
       docker:
@@ -31,3 +35,5 @@ manifests:
     - infra/k8s/nats-depl.yaml
     - infra/k8s/orders-depl.yaml
     - infra/k8s/orders-mongo-depl.yaml
+    - infra/k8s/expiration-depl.yaml
+    - infra/k8s/expiration-redis-depl.yaml
