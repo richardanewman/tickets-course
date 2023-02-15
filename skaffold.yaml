@@ -16,12 +16,16 @@ build:
       context: expiration
       docker:
         dockerfile: Dockerfile
-    - image: tickets-poc/tickets
-      context: tickets
-      docker:
-        dockerfile: Dockerfile
     - image: tickets-poc/orders
       context: orders
+      docker:
+        dockerfile: Dockerfile
+    - image: tickets-poc/payments
+      context: payments
+      docker:
+        dockerfile: Dockerfile
+    - image: tickets-poc/tickets
+      context: tickets
       docker:
         dockerfile: Dockerfile
 manifests:
@@ -37,3 +41,5 @@ manifests:
     - infra/k8s/orders-mongo-depl.yaml
     - infra/k8s/expiration-depl.yaml
     - infra/k8s/expiration-redis-depl.yaml
+    - infra/k8s/payments-depl.yaml
+    - infra/k8s/payments-mongo-depl.yaml
