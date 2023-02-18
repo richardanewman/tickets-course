@@ -33,8 +33,6 @@ it('replicates the order info', async () => {
   await listener.onMessage(data, msg as Message);
 
   const order = await Order.findById(data.id);
-  console.log('order:::: ', order);
-
   expect(order!.price).toEqual(data.ticket.price);
 });
 

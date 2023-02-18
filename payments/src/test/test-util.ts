@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import mongoose from 'mongoose';
 
-export const signIn = () => {
-  const id = new mongoose.Types.ObjectId().toHexString();
+export const signIn = (userId: string | undefined) => {
+  const id = userId ?? new mongoose.Types.ObjectId().toHexString();
   const payload = {
     id: id,
     email: 'test@test.com',

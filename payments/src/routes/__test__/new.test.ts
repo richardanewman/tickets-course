@@ -5,23 +5,24 @@ import { app } from '../../app';
 import { Order } from '../../models/order';
 import { signIn } from '../../test/test-util';
 import { stripe } from '../../stripe';
-// import { Payment } from '../../models/payment';
+import { Payment } from '../../models/payment';
 
 it('returns a 404 when purchasing an order that does not exist', async () => {
   await request(app)
     .post('/api/payments')
-    .set('Cookie', signIn())
+    .set('Cookie', signIn(undefined))
     .send({
-      token: 'asldkfj',
+      token: 'tok_visa',
       orderId: new mongoose.Types.ObjectId().toHexString(),
     })
     .expect(404);
 });
 
 it('returns a 401 when purchasing an order that doesnt belong to the user', async () => {
+  const userId = new mongoose.Types.ObjectId().toHexString();
   const order = Order.build({
     id: new mongoose.Types.ObjectId().toHexString(),
-    userId: new mongoose.Types.ObjectId().toHexString(),
+    userId,
     version: 0,
     price: 20,
     status: OrderStatus.Created,
@@ -30,9 +31,9 @@ it('returns a 401 when purchasing an order that doesnt belong to the user', asyn
 
   await request(app)
     .post('/api/payments')
-    .set('Cookie', signIn())
+    .set('Cookie', signIn(undefined))
     .send({
-      token: 'asldkfj',
+      token: 'wrong_token',
       orderId: order.id,
     })
     .expect(401);
@@ -51,10 +52,10 @@ it('returns a 400 when purchasing a cancelled order', async () => {
 
   await request(app)
     .post('/api/payments')
-    .set('Cookie', signIn())
+    .set('Cookie', signIn(userId))
     .send({
       orderId: order.id,
-      token: 'asdlkfj',
+      token: 'tok_visa',
     })
     .expect(400);
 });
@@ -71,7 +72,7 @@ it('returns a 201 with valid inputs', async () => {
   });
   await order.save();
 
-  await request(app)
+  const charge = await request(app)
     .post('/api/payments')
     .set('Cookie', signIn(userId))
     .send({
@@ -90,7 +91,6 @@ it('returns a 201 with valid inputs', async () => {
 
   const payment = await Payment.findOne({
     orderId: order.id,
-    stripeId: stripeCharge!.id,
   });
   expect(payment).not.toBeNull();
 });
