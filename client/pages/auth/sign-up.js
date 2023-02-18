@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Router from 'next/router';
-import { useRequest } from '../../hooks/use-request';
+import useRequest from '../../hooks/use-request';
 
-const SignUp = () => {
+const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { handleRequest, errors } = useRequest({
+  const { doRequest, errors } = useRequest({
     url: '/api/users/sign-up',
     method: 'post',
     body: {
@@ -15,9 +15,10 @@ const SignUp = () => {
     onSuccess: () => Router.push('/'),
   });
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    await handleRequest();
+  const onSubmit = async (event) => {
+    event.preventDefault();
+
+    await doRequest();
   };
 
   return (
@@ -41,11 +42,9 @@ const SignUp = () => {
         />
       </div>
       {errors}
-      <button type="submit" className="btn btn-primary">
-        Sign Up
-      </button>
+      <button className="btn btn-primary">Sign Up</button>
     </form>
   );
 };
 
-export default SignUp;
+export default Signup;

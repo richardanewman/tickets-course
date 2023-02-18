@@ -2,16 +2,18 @@ import Link from 'next/link';
 
 const Header = ({ currentUser }) => {
   const links = [
-    !currentUser && { label: 'Sign Up', href: '/auth/sign-up' },
-    !currentUser && { label: 'Sign In', href: '/auth/sign-in' },
-    currentUser && { label: 'Sign Out', href: '/auth/sign-out' },
+    !currentUser && { label: 'Sign Up', href: '/auth/signup' },
+    !currentUser && { label: 'Sign In', href: '/auth/signin' },
+    currentUser && { label: 'Sell Tickets', href: '/tickets/new' },
+    currentUser && { label: 'My Orders', href: '/orders' },
+    currentUser && { label: 'Sign Out', href: '/auth/signout' },
   ]
     .filter((linkConfig) => linkConfig)
     .map(({ label, href }) => {
       return (
-        <li className="nav-item" key={href}>
-          <Link className="nav-link" href={href}>
-            {label}
+        <li key={href} className="nav-item">
+          <Link href={href}>
+            <a className="nav-link">{label}</a>
           </Link>
         </li>
       );
@@ -19,8 +21,8 @@ const Header = ({ currentUser }) => {
 
   return (
     <nav className="navbar navbar-light bg-light">
-      <Link className="navbar-brand" href="/">
-        GitTix
+      <Link href="/">
+        <a className="navbar-brand">GitTix</a>
       </Link>
 
       <div className="d-flex justify-content-end">
