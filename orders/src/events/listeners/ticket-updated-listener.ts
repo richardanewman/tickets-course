@@ -19,6 +19,7 @@ export class TicketUpdatedListener extends Listener<TicketUpdatedEvent> {
     }
 
     const { title, price } = data;
+    //update order service ticket for decoupled reference
     ticket.set({ title, price });
 
     await ticket.save();
